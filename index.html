@@ -9,14 +9,36 @@
 
 <body>
 
-    <form action="http://localhost:3000/user" method="POST">
-        <label for="name">Имя</label>
-        <input type="text" name="name">
-        <label for="age">Возраст</label>
-        <input type="text" name="age">
-        <input type="submit">
+    <form id="myForm">
+        <input id="name" type='text' name='name'></input>
+        <input id="age" type='text' name='age'></input>
+        <input id="submit" type="submit">
     </form>
 
+    <script>
+
+        const myForm = document.querySelector('#myForm');
+
+        myForm.addEventListener('submit', function () {
+
+            let name = document.getElementById('name');
+            let age = document.getElementById('age');
+            let nameValue = name.value;
+            let ageValue = age.value;
+
+            let data = {
+                name: nameValue,
+                age: ageValue
+            }
+
+            fetch("/", {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { "Content-Type": "application/json" }
+            });
+        });
+
+    </script>
 </body>
 
 </html>
