@@ -9,17 +9,43 @@
 
 <body>
 
-    <form id="myForm">
-        <input id="name" type='text' name='name'></input>
-        <input id="age" type='text' name='age'></input>
-        <input id="submit" type="submit">
-    </form>
+    <!-- <form id="myForm"> -->
+    <input id="name" type='text' name='name'></input>
+    <input id="age" type='text' name='age'></input>
+    <input id="submit" type="submit" value="Отправить">
+    <input id="delete" type="submit" value="Удалить">
+
+    <!-- </form> -->
 
     <script>
 
-        const myForm = document.querySelector('#myForm');
+        // const myForm = document.querySelector('#myForm');
 
-        myForm.addEventListener('submit', function () {
+        // const deleteForm = document.querySelector('#delete');
+
+        // deleteForm.addEventListener('click', function () {
+        //     let id = 37;
+
+        //     let name = document.getElementById('name');
+        //     let age = document.getElementById('age');
+        //     let nameValue = name.value;
+        //     let ageValue = age.value;
+
+        //     let data = {
+        //         name: nameValue,
+        //         age: ageValue
+        //     }
+
+        //     fetch(`/user/${id}`, {
+        //         method: 'DELETE',
+        //         body: JSON.stringify(data),
+        //         headers: { "Content-Type": "application/json" }
+        //     });
+        // });
+
+        let myForm = document.querySelector('#submit');
+
+        myForm.addEventListener('click', function () {
 
             let name = document.getElementById('name');
             let age = document.getElementById('age');
@@ -31,11 +57,16 @@
                 age: ageValue
             }
 
-            fetch("/", {
+            fetch('/user', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: { "Content-Type": "application/json" }
             });
+
+            var inputs = document.querySelectorAll('input[type=text]');
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].value = "";
+            };
         });
 
     </script>
