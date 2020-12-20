@@ -8,14 +8,14 @@
 </head>
 
 <body>
-
-    <!-- <form id="myForm"> -->
+    <label for="name">Имя</label>
     <input id="name" type='text' name='name'></input>
-    <input id="age" type='text' name='age'></input>
+    <!-- <label for="age">Возраст</label> -->
+    <!-- <input id="age" type='text' name='age'></input> -->
+    <label for="mail">Mail</label>
+    <input id="mail" type='email' name='mail' required></input>
     <input id="submit" type="submit" value="Отправить">
-    <input id="delete" type="submit" value="Удалить">
-
-    <!-- </form> -->
+    <!-- <input id="delete" type="submit" value="Удалить"> -->
 
     <script>
 
@@ -48,13 +48,15 @@
         myForm.addEventListener('click', function () {
 
             let name = document.getElementById('name');
-            let age = document.getElementById('age');
+            // let age = document.getElementById('age');
+            let age = document.getElementById('mail');
             let nameValue = name.value;
-            let ageValue = age.value;
+            // let ageValue = age.value;
+            let mailValue = mail.value;
 
             let data = {
                 name: nameValue,
-                age: ageValue
+                mail: mailValue
             }
 
             fetch('/user', {
