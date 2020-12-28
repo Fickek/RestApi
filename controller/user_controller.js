@@ -3,22 +3,28 @@ const db = require('../db');
 class UserContoller {
     async createUser(req, res) {
         const {
-            name,
-            mail
+            mail,
+            password
         } = req.body;
 
-        let mailUser = await db.query('SELECT mail from person');
-        // console.log(mailUser.rows[0])
-        for (let number in mailUser.rows) { // перебирает каждый элемент по mail и передает его в number
-            // console.log(mailUser.rows[number].mail);
-            if (mailUser.rows[number].mail === mail) {
-                console.log(mail);
-                break;
+        let mailPerson = await db.query('SELECT mail from person');
+        let arr = [];
+
+        for (let person in mailPerson.rows) {
+
+            if (mailPerson.rows[person].mail === mail) {
+                arr.push(mailPerson.rows[person].mail);
             } else {
-                console.log(mail);
-                const newPerson = await db.query('INSERT INTO person (name, mail) values ($1, $2) RETURNING *', [name, mail]);
-                break;
+                continue;
             }
+        }
+
+        if (arr[0] === mail) {
+            res.sendStatus(404);
+        } else {
+            console.log('No');
+            const newPerson = await db.query('INSERT INTO person (mail, password) values ($1, $2) RETURNING *', [mail, password]);
+            res.send();
         }
     }
     // async getUser(req, res) {
