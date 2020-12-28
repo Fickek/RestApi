@@ -4,73 +4,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>RestApi</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0 auto;
+        padding: 0;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-self: center;
+        margin-top: 250px;
+    }
+
+    .block label {
+        margin-top: 20px;
+        font-weight: bold;
+        /* text-transform: uppercase; */
+    }
+
+    #submit {
+        margin-top: 20px;
+    }
+</style>
 
 <body>
-    <label for="name">Имя</label>
-    <input id="name" type='text' name='name'></input>
-    <!-- <label for="age">Возраст</label> -->
-    <!-- <input id="age" type='text' name='age'></input> -->
-    <label for="mail">Mail</label>
-    <input id="mail" type='email' name='mail' required></input>
-    <input id="submit" type="submit" value="Отправить">
-    <!-- <input id="delete" type="submit" value="Удалить"> -->
-
+    <div class="container">
+        <div class="block">
+            <label for="mail">Введите свой mail:</label>
+            <input id="mail" type='email' name='mail' required></input>
+            <label for="password">Введите Пароль:</label>
+            <input id="password" type='password' name='password'></input>
+            <label for="passwordcheck">Повторите пароль:</label>
+            <input id="passwordcheck" type='password' name='passwordcheck'></input>
+            <input id="submit" type="submit" value="Зарегистрироваться">
+        </div>
+    </div>
     <script>
 
-        // const myForm = document.querySelector('#myForm');
+        let submit = document.querySelector('#submit');
 
-        // const deleteForm = document.querySelector('#delete');
+        submit.addEventListener('click', function () {
 
-        // deleteForm.addEventListener('click', function () {
-        //     let id = 37;
+            let mail = document.getElementById('mail');
+            let password = document.getElementById('password');
+            let passwordCheck = document.getElementById('passwordcheck');
 
-        //     let name = document.getElementById('name');
-        //     let age = document.getElementById('age');
-        //     let nameValue = name.value;
-        //     let ageValue = age.value;
-
-        //     let data = {
-        //         name: nameValue,
-        //         age: ageValue
-        //     }
-
-        //     fetch(`/user/${id}`, {
-        //         method: 'DELETE',
-        //         body: JSON.stringify(data),
-        //         headers: { "Content-Type": "application/json" }
-        //     });
-        // });
-
-        let myForm = document.querySelector('#submit');
-
-        myForm.addEventListener('click', function () {
-
-            let name = document.getElementById('name');
-            // let age = document.getElementById('age');
-            let age = document.getElementById('mail');
-            let nameValue = name.value;
-            // let ageValue = age.value;
-            let mailValue = mail.value;
-
-            let data = {
-                name: nameValue,
-                mail: mailValue
+            function passwordChecked(first, second) {
+                if (first.value === second.value) {
+                    let check = first.value;
+                    return check;
+                } else {
+                    console.log("Error");
+                }
             }
 
-            fetch('/user', {
+
+            let mailValue = mail.value;
+            let passValue = passwordChecked(password, passwordCheck);
+
+
+            let data = {
+                mail: mailValue,
+                password: passValue
+            };
+
+            console.log(data);
+
+            let options = {
                 method: 'POST',
                 body: JSON.stringify(data),
-                headers: { "Content-Type": "application/json" }
-            });
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            };
 
-            var inputs = document.querySelectorAll('input[type=text]');
+            fetch('/user', options)
+                // .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw Error(`is not ok: ` + response.status);
+                    }
+                    return alert('Регистрация прошла успешно!');
+                })
+                .catch(() => {
+                    alert('Такой имейл уже существует!')
+                })
+
+
+            var inputs = document.querySelectorAll('input[type=email], input[type=password]');
+
             for (var i = 0; i < inputs.length; i++) {
                 inputs[i].value = "";
-            };
+            }
         });
-
     </script>
 </body>
 
